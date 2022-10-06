@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+
+<h1>福井県観光アンケートオープンデータ ワードクラウド</h1>
+<select id=selarea><option>すべてのエリア</option></select><br>
+<main id=main></main>
+
+<script type="module">
+import { CSV } from "https://js.sabae.cc/CSV.js";
+import { showWordCloud } from "./showWordCloud.js";
+import { ArrayUtil } from "https://js.sabae.cc/ArrayUtil.js";
+import {} from "https://code4fukui.github.io/fukui-kanko-stat/header.js";
+
+const url = "https://code4fukui.github.io/fukui-kanko-survey/monthly/202208.csv";
+//const url = "https://code4fukui.github.io/fukui-kanko-survey/all.csv";
+const data = await CSV.fetchJSON(url);
+console.log(data);
+
+// area
+const areas = ArrayUtil.toUnique(data.map(d => d.回答エリア2)).sort();
+areas.forEach(a => {
+  const opt = document.createElement("option");
+  opt.textContent = a;
+  selarea.appendChild(opt);
+});
+const getArea = () => {
+  const v = selarea.value;
+  return v == "すべてのエリア" ? 0 : parseInt(v);
+};
+
+const freecomment = ["福井県に求めるもの", "施設に求めるもの", "満足度の理由", "福井県内での交通手段の満足度の理由", "不便さの内容"];
+
+const showData = (data) => {
+  main.innerHTML = "";
+  for (let i = 0; i < freecomment.length; i++) {
+    const id = "div" + i;
+    const fc = freecomment[i];
+    const list = data.map(d => d[fc]).filter(s => s);
+    const div = document.createElement("div");
+    main.appendChild(div);
+    const h2 = document.createElement("h2");
+    div.appendChild(h2);
+    h2.textContent = fc;
+    const div2 = document.createElement("div");
+    div2.id = id;
+    div.appendChild(div2);
+    showWordCloud(id, list);
+  }
+};
+
+const show = () => {
+  const data2 = data.filter(d => {
+    const filterarea = selarea.value != "すべてのエリア";
+    return !filterarea || d.回答エリア2 == selarea.value;
+  });
+  showData(data2);
+};
+
+show();
+selarea.onchange = () => show();
+
+</script>
