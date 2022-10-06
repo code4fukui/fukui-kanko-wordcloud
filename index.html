@@ -1,8 +1,19 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>福井県観光アンケートオープンデータ ワードクラウド</title>
+</head><body>
+<main>
+  <h1>福井県観光アンケートオープンデータ ワードクラウド</h1>
+  <select id=selarea><option>すべてのエリア</option></select><br>
+  <div id=main></div>
+</main>
 
-<h1>福井県観光アンケートオープンデータ ワードクラウド</h1>
-<select id=selarea><option>すべてのエリア</option></select><br>
-<main id=main></main>
+<div id=credit>
+  <hr>
+  <a href=https://github.com/code4fukui/fukui-kanko-wordcloud>src on GitHub</a> / 
+  <a href=https://github.com/code4fukui/fukui-kanko-survey>福井県観光アンケートオープンデータ on GitHub</a><br>
+  <script type="module" src="https://code4fukui.github.io/qr-code/qr-code.js"></script>
+  <qr-code></qr-code><br>
+</div>
 
 <script type="module">
 import { CSV } from "https://js.sabae.cc/CSV.js";
@@ -65,3 +76,5 @@ show();
 selarea.onchange = () => show();
 
 </script>
+</body>
+</html>
