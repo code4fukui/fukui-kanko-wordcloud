@@ -2,7 +2,7 @@ import * as d3 from "https://cdn.skypack.dev/d3@7";
 import { cloud } from "https://code4fukui.github.io/d3-cloud-es/index.js";
 
 export const drawWordCloud = async (querydom, data) => {
-  const w = innerWidth - 40;
+  const w = innerWidth - 20;
   const h = 800 / Math.max(w, 800) * 400;
 
   const randomColor = () => {
