@@ -1,9 +1,7 @@
 import * as d3 from "https://cdn.skypack.dev/d3@7";
 import { cloud } from "https://code4fukui.github.io/d3-cloud-es/index.js";
-import { kuromoji } from "https://code4fukui.github.io/kuromoji-es/kuromoji.js";
-import { ignoreWords } from "./ignoreWords.js";
 
-const drawWordCloud = async (querydom, data) => {
+export const drawWordCloud = async (querydom, data) => {
   const w = innerWidth - 40;
   const h = 800 / Math.max(w, 800) * 400;
 
@@ -60,38 +58,4 @@ const drawWordCloud = async (querydom, data) => {
       .fontSize(d => d.size)
       .on("end", draw);
   layout.start();
-};
-
-const tokenizer = await kuromoji.createTokenizer();
-
-export const showWordCloud = (domid, text) => {
-  if (Array.isArray(text)) {
-    text = text.join("。");
-  }
-  //const TARGET_POS = ['名詞', '動詞', '形容詞'];
-  const TARGET_POS = ["名詞"];
-  const NO_CONTENT = "*"; // kuromoji.jsの解析結果の値で特に値がない場合 "*" が設定される
-  const tokens = tokenizer.tokenize(text); // テキストを引数にして形態素解析
-  //console.log(tokens);
-  // 解析結果から単語と出現回数を抽出
-  const words = tokens
-    // pos（品詞）を参照し、'名詞', '動詞', '形容詞'のみを抽出
-    .filter(t => t.basic_form != NO_CONTENT && TARGET_POS.includes(t.pos) && !ignoreWords.includes(t.basic_form))
-    // 単語を抽出(basic_formかsurface_formに単語が存在する)
-    .map(t => t.basic_form)
-    // [{text: 単語, value: 出現回数}]の形にReduce
-    .reduce((data, text) => {
-      const target = data.find(c => c.text === text)
-      if (target) {
-        target.value++;
-      } else {
-        data.push({ text, value: 1 });
-      }
-      return data
-    }, [])
-    .sort((a, b) => b.value - a.value);
-  //console.log(words);
-
-  document.getElementById(domid).innerHTML = "";
-  drawWordCloud("#" + domid, words);
 };

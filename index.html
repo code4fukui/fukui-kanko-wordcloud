@@ -6,9 +6,11 @@
 
 <script type="module">
 import { CSV } from "https://js.sabae.cc/CSV.js";
-import { showWordCloud } from "./showWordCloud.js";
+import { drawWordCloud } from "./drawWordCloud.js";
 import { ArrayUtil } from "https://js.sabae.cc/ArrayUtil.js";
 import {} from "https://code4fukui.github.io/fukui-kanko-stat/header.js";
+import { getWordsCache } from "./getWordsCache.js";
+//import { getWords } from "./getWords.js";
 
 const url = "https://code4fukui.github.io/fukui-kanko-survey/monthly/202208.csv";
 //const url = "https://code4fukui.github.io/fukui-kanko-survey/all.csv";
@@ -29,7 +31,7 @@ const getArea = () => {
 
 const freecomment = ["福井県に求めるもの", "施設に求めるもの", "満足度の理由", "福井県内での交通手段の満足度の理由", "不便さの内容"];
 
-const showData = (data) => {
+const showData = async (data, area) => {
   main.innerHTML = "";
   for (let i = 0; i < freecomment.length; i++) {
     const id = "div" + i;
@@ -43,16 +45,20 @@ const showData = (data) => {
     const div2 = document.createElement("div");
     div2.id = id;
     div.appendChild(div2);
-    showWordCloud(id, list);
+    //const words = await getWords(list);
+    const words = await getWordsCache(area, fc);
+    document.getElementById(id).innerHTML = "";
+    drawWordCloud("#" + id, words);
   }
 };
 
-const show = () => {
+const show = async () => {
+  const area = selarea.value;
   const data2 = data.filter(d => {
-    const filterarea = selarea.value != "すべてのエリア";
-    return !filterarea || d.回答エリア2 == selarea.value;
+    const filterarea = area != "すべてのエリア";
+    return !filterarea || d.回答エリア2 == area;
   });
-  showData(data2);
+  await showData(data2, area);
 };
 
 show();
