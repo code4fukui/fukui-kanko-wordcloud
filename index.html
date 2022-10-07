@@ -3,7 +3,8 @@
 </head><body>
 <main>
   <h1>福井県観光アンケートオープンデータ ワードクラウド</h1>
-  <select id=selarea><option>すべてのエリア</option></select><br>
+  <select id=selarea><option>すべてのエリア</option></select>
+  <!--<label><input id="chkwithout" type="checkbox">県外の方のみ</label>--><br>
   <div id=main></div>
 </main>
 
@@ -64,6 +65,7 @@ const showData = async (data, area) => {
 };
 
 const show = async () => {
+  location.hash = getArea(); // + "," + (chkwithout.checked ? 1 : 0);
   const area = selarea.value;
   const data2 = data.filter(d => {
     const filterarea = area != "すべてのエリア";
@@ -71,6 +73,18 @@ const show = async () => {
   });
   await showData(data2, area);
 };
+
+if (location.hash.length > 1) {
+  const [narea] = location.hash.substring(1).split(",");
+  if (narea) {
+    selarea.selectedIndex = narea;
+  }
+  /*
+  if (chk) {
+    chkwithout.checked = chk == "1";
+  }
+  */
+}
 
 show();
 selarea.onchange = () => show();
