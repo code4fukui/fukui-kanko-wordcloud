@@ -3,7 +3,7 @@ import { cloud } from "https://code4fukui.github.io/d3-cloud-es/index.js";
 
 export const drawWordCloud = async (querydom, data) => {
   const w = innerWidth - 20;
-  const h = 800 / Math.max(w, 800) * 400;
+  const h = 800 / Math.max(w, 800) * 500;
 
   const randomColor = () => {
     return `hsl(${Math.random() * 360} 55% 50%)`;
@@ -45,6 +45,8 @@ export const drawWordCloud = async (querydom, data) => {
       return 60;
     } else if (value < 30) {
       return 40;
+    } else if (value < 60) {
+      return 15;
     } else {
       return 10;
     }
