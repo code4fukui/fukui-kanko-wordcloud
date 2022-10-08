@@ -21,11 +21,9 @@ import { CSV } from "https://js.sabae.cc/CSV.js";
 import { drawWordCloud } from "./drawWordCloud.js";
 import { ArrayUtil } from "https://js.sabae.cc/ArrayUtil.js";
 import {} from "https://code4fukui.github.io/fukui-kanko-stat/header.js";
-import { getWordsCache } from "./getWordsCache.js";
-//import { getWords } from "./getWords.js";
+import { getWords } from "./getWords.js";
 
-const url = "https://code4fukui.github.io/fukui-kanko-survey/monthly/202208.csv";
-//const url = "https://code4fukui.github.io/fukui-kanko-survey/all.csv";
+const url = "https://code4fukui.github.io/fukui-kanko-survey/all.csv";
 const data = await CSV.fetchJSON(url);
 console.log(data);
 
@@ -57,8 +55,7 @@ const showData = async (data, area) => {
     const div2 = document.createElement("div");
     div2.id = id;
     div.appendChild(div2);
-    //const words = await getWords(list);
-    const words = await getWordsCache(area, fc);
+    const words = await getWords(list);
     document.getElementById(id).innerHTML = "";
     drawWordCloud("#" + id, words);
   }
