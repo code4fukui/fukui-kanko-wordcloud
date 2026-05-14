@@ -4,7 +4,7 @@
 
 ## デモ
 
-**https://code4fukui.github.io/fukui-kanko-wordcloud/**
+**https://github.com/code4fukui/fukui-kanko-wordcloud
 
 ライブデモでは、アンケートデータを処理し、ブラウザ内で直接ワードクラウドを生成します。
 

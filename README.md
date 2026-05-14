@@ -6,7 +6,7 @@ A client-side web application that visualizes open data from Fukui Prefecture's 
 
 ## Demo
 
-**https://code4fukui.github.io/fukui-kanko-wordcloud/**
+**https://github.com/code4fukui/fukui-kanko-wordcloud
 
 The live demo processes the survey data and generates word clouds directly in your browser.
 
